@@ -63,5 +63,24 @@ $CMD_MYSQL -e "CREATE TABLE workspaces (
   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );"
 
+# ユーザーを作成
 $CMD_MYSQL -e "INSERT INTO users (id, username, password, email) VALUES ('00000000000000000000000001', 'sato', 'sato', 'sato@gmail.com');"
 $CMD_MYSQL -e "INSERT INTO users (id, username, password, email) VALUES ('00000000000000000000000002', 'suzuki', 'suzuki', 'suzuki@gmail.com');"
+
+# ワークスペースを作成
+$CMD_MYSQL -e "INSERT INTO workspaces (id, name) VALUES ('00000000000000000000000001', 'UTokyo Tech Club');"
+
+# チャンネルを作成
+$CMD_MYSQL -e "INSERT INTO channels (id, name, description, create_user_id, workspace_id) VALUES ('00000000000000000000000001', 'general', '一般的な内容', '00000000000000000000000001', '00000000000000000000000001');"
+
+# メッセージを作成
+$CMD_MYSQL -e "INSERT INTO messages (id, text, channel_id, user_id) VALUES ('00000000000000000000000001', 'こんにちは！', '00000000000000000000000001', '00000000000000000000000001');"
+$CMD_MYSQL -e "INSERT INTO messages (id, text, channel_id, user_id) VALUES ('00000000000000000000000002', 'こんにちは！', '00000000000000000000000001', '00000000000000000000000002');"
+
+# チャンネルとユーザーを紐付け
+$CMD_MYSQL -e "INSERT INTO users_channels (id, channel_id, user_id) VALUES ('00000000000000000000000001', '00000000000000000000000001', '00000000000000000000000001');"
+$CMD_MYSQL -e "INSERT INTO users_channels (id, channel_id, user_id) VALUES ('00000000000000000000000002', '00000000000000000000000001', '00000000000000000000000002');"
+
+# ワークスペースとユーザーを紐付け
+$CMD_MYSQL -e "INSERT INTO users_workspaces (id, workspace_id, user_id) VALUES ('00000000000000000000000001', '00000000000000000000000001', '00000000000000000000000001');"
+$CMD_MYSQL -e "INSERT INTO users_workspaces (id, workspace_id, user_id) VALUES ('00000000000000000000000002', '00000000000000000000000001', '00000000000000000000000002');"
