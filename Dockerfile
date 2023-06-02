@@ -1,5 +1,5 @@
 FROM golang:1.18 as build
 
-COPY ./main.go /main.go
+COPY . .
 
-CMD go run /main.go
+CMD go run ./app/main.go
