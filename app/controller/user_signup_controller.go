@@ -1,11 +1,11 @@
 package controller
 
 import (
+	"app/model"
+	"app/usecase"
 	"encoding/json"
 	"log"
 	"net/http"
-	"app/model"
-	"app/usecase"
 )
 
 // userを登録する
@@ -14,7 +14,7 @@ func UserSignUp(w http.ResponseWriter, r *http.Request) {
 	case http.MethodPost:
 		// jsonを解析してusername、password、emailを取得する
 		var user model.User
-		err := json.NewDecoder(r.Body).Decode(&user);
+		err := json.NewDecoder(r.Body).Decode(&user)
 		if err != nil {
 			log.Printf("fail: json.NewDecoder.Decode, %v\n", err)
 			w.WriteHeader(http.StatusBadRequest)
@@ -50,4 +50,5 @@ func UserSignUp(w http.ResponseWriter, r *http.Request) {
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 }
