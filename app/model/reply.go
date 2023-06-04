@@ -26,9 +26,9 @@ import (
 type Reply struct {
 	Id        string    `json:"id"`
 	Text      string    `json:"text"`
-	ChannelId string    `json:"channel_id"`
-	UserId    string    `json:"user_id"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	ParentId  string    `json:"parent_id"`
+	ChannelId string    `json:"channelId"`
+	UserId    string    `json:"userId"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	ParentId  string    `json:"parentId"`
 }

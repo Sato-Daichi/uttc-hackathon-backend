@@ -21,8 +21,8 @@ import (
 
 type UserWorkspace struct {
 	Id          string    `json:"id"`
-	WorkspaceId string    `json:"workspace_id"`
-	UserId      string    `json:"user_id"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
+	WorkspaceId string    `json:"workspaceId"`
+	UserId      string    `json:"userId"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
 }

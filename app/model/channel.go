@@ -22,11 +22,11 @@ import (
 )
 
 type Channel struct {
-	Id          string    `json:"id"`
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	CreateUserId string    `json:"create_user_id"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
-	WorkspaceId string    `json:"workspace_id"`
+	Id           string    `json:"id"`
+	Name         string    `json:"name"`
+	Description  string    `json:"description"`
+	CreateUserId string    `json:"createUserId"`
+	CreatedAt    time.Time `json:"createdAt"`
+	UpdatedAt    time.Time `json:"updatedAt"`
+	WorkspaceId  string    `json:"workspaceId"`
 }

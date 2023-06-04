@@ -21,8 +21,8 @@ import (
 
 type UserChannel struct {
 	Id        string    `json:"id"`
-	ChannelId string    `json:"channel_id"`
-	UserId    string    `json:"user_id"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ChannelId string    `json:"channelId"`
+	UserId    string    `json:"userId"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
