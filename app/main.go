@@ -20,6 +20,9 @@ func main() {
 	// チャンネルidから全メッセージを取得
 	http.HandleFunc("/messages", controller.GetMessagesByChannelID)
 
+	// user_idからworkspacesを取得
+	http.HandleFunc("/workspaces", controller.GetWorkspacesByUserID)
+
 	// 8000番ポートでリクエストを待ち受ける
 	log.Println("Listening...")
 	if err := http.ListenAndServe(":8000", nil); err != nil {
