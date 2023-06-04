@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"log"
 	"app/model"
+	"log"
 )
 
 // userを登録する
@@ -64,4 +64,35 @@ func GetUserByEmail(email string) (model.User, error) {
 	}
 
 	return user, nil
+}
+
+// 全ユーザーを取得する
+func GetAllUsers() ([]model.User, error) {
+	stmt, err := db.Prepare("SELECT * FROM users")
+	if err != nil {
+		log.Printf("fail: db.Prepare, %v\n", err)
+		return nil, err
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query()
+	log.Printf("rows: %v\n", rows)
+	if err != nil {
+		log.Printf("fail: stmt.Query, %v\n", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []model.User
+	for rows.Next() {
+		var user model.User
+		err := rows.Scan(&user.Id, &user.Username, &user.Password, &user.Email, &user.CreatedAt, &user.UpdatedAt)
+		if err != nil {
+			log.Printf("fail: rows.Scan, %v\n", err)
+			return nil, err
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
 }

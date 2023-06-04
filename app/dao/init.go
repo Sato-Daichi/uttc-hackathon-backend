@@ -2,14 +2,17 @@ package dao
 
 import (
 	"database/sql"
-	"log"
 	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
+
 	"github.com/joho/godotenv"
 )
+
 var db *sql.DB
+
 func init() {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -22,16 +25,19 @@ func init() {
     mysqlDatabase := os.Getenv("MYSQL_DATABASE")
 
 	// DB接続
-	connStr := fmt.Sprintf("%s:%s@%s/%s", mysqlUser, mysqlPwd, mysqlHost, mysqlDatabase)
-    db, err := sql.Open("mysql", connStr)
+    // 時間をパースする
+	connStr := fmt.Sprintf("%s:%s@%s/%s?parseTime=true", mysqlUser, mysqlPwd, mysqlHost, mysqlDatabase)
+    _db, err := sql.Open("mysql", connStr)
 	if err != nil {
 		log.Fatalf("fail: sql.Open, %v\n", err)
 	}
 	// 実際に接続できるか確認
-	if err := db.Ping(); err != nil {
+	if err := _db.Ping(); err != nil {
 		log.Fatalf("fail: db.Ping, %v\n", err)
 	}
+	log.Println("success: db.Ping()")
 
+	db = _db
 	closeDBWithSysCall()
 }
 
