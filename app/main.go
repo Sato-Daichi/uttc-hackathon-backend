@@ -12,10 +12,13 @@ import (
 func init() {}
 
 func main() {
-	http.HandleFunc("/user/signup", controller.UserSignUp)
+	http.HandleFunc("/signup", controller.UserSignUp)
 
 	// 全ユーザーを取得
 	http.HandleFunc("/users/all", controller.GetAllUsers)
+
+	// チャンネルidから全メッセージを取得
+	http.HandleFunc("/messages", controller.GetMessagesByChannelID)
 
 	// 8000番ポートでリクエストを待ち受ける
 	log.Println("Listening...")
