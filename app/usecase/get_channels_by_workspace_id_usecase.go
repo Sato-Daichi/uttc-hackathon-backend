@@ -6,8 +6,8 @@ import (
 )
 
 // workspace_idから全チャンネルを取得
-func GetChannelsByWorkspaceID(workspaceID string) ([]model.Channel, error) {
-	channels, err := dao.GetChannelsByWorkspaceID(workspaceID)
+func GetChannelsByWorkspaceId(workspaceId string) ([]model.Channel, error) {
+	channels, err := dao.GetChannelsByWorkspaceId(workspaceId)
 	if err != nil {
 		return nil, err
 	}

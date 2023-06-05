@@ -3,10 +3,11 @@ package dao
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"time"
-	"math/rand"	
-	"github.com/oklog/ulid/v2"
+
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/oklog/ulid/v2"
 )
 
 // テーブルと条件を指定して、条件を満たすレコードを1件取得する
@@ -42,21 +43,21 @@ func GetRecords(table string, record interface{}, where string, args ...interfac
 }
 
 // テーブルと構造体を引数として受け取り、レコードを1件挿入する
-// idはULIDで生成する
+// idはULIdで生成する
 // crated_atとupdated_atはmySQLの設定で自動で設定されるため、コーディングする必要はない
-func InsertRecord(table string, record interface{}) (error) {
+func InsertRecord(table string, record interface{}) error {
 	stmt, err := db.Prepare(fmt.Sprintf("INSERT INTO %s VALUES ?", table))
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
 		return err
 	}
 	defer stmt.Close()
-	
+
 	t := time.Now()
 	entropy := ulid.Monotonic(rand.New(rand.NewSource(t.UnixNano())), 0)
 	id := ulid.MustNew(ulid.Timestamp(t), entropy).Time()
 
-	// レコードのIDを指定してレコードを挿入
+	// レコードのIdを指定してレコードを挿入
 	err = stmt.QueryRow(id, record).Scan()
 	if err != nil {
 		log.Printf("fail: stmt.QueryRow.Scan, %v\n", err)
@@ -68,7 +69,7 @@ func InsertRecord(table string, record interface{}) (error) {
 
 // テーブルとレコードを指定して、レコードを1件更新する
 // レコードを格納する構造体は引数で受け取る
-func UpdateRecord(table string, record interface{}) (error) {
+func UpdateRecord(table string, record interface{}) error {
 	stmt, err := db.Prepare(fmt.Sprintf("UPDATE %s SET ? WHERE ?", table))
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
@@ -76,7 +77,7 @@ func UpdateRecord(table string, record interface{}) (error) {
 	}
 	defer stmt.Close()
 
-	// レコードのIDを設定
+	// レコードのIdを設定
 	err = stmt.QueryRow(record).Scan()
 	if err != nil {
 		log.Printf("fail: stmt.QueryRow.Scan, %v\n", err)
@@ -87,7 +88,7 @@ func UpdateRecord(table string, record interface{}) (error) {
 }
 
 // テーブルと条件を指定して、条件を満たすレコードを1件削除する
-func DeleteRecord(table string, where string, args ...interface{}) (error) {
+func DeleteRecord(table string, where string, args ...interface{}) error {
 	stmt, err := db.Prepare(fmt.Sprintf("DELETE FROM %s WHERE %s", table, where))
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
@@ -95,7 +96,7 @@ func DeleteRecord(table string, where string, args ...interface{}) (error) {
 	}
 	defer stmt.Close()
 
-	// レコードのIDを設定
+	// レコードのIdを設定
 	_, err = stmt.Exec(args...)
 	if err != nil {
 		log.Printf("fail: stmt.Exec, %v\n", err)
@@ -104,4 +105,3 @@ func DeleteRecord(table string, where string, args ...interface{}) (error) {
 
 	return nil
 }
-

@@ -8,16 +8,16 @@ import (
 )
 
 // チャンネルidから全メッセージを取得
-func GetMessagesByChannelID(w http.ResponseWriter, r *http.Request) {
+func GetMessagesByChannelId(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		// チャンネルidを取得
-		channelID := r.URL.Query().Get("channel")
+		channelId := r.URL.Query().Get("channel")
 
 		// メッセージを取得
-		messages, err := usecase.GetMessagesByChannelID(channelID)
+		messages, err := usecase.GetMessagesByChannelId(channelId)
 		if err != nil {
-			log.Printf("fail: usecase.GetAllMessagesByChannelID, %v\n", err)
+			log.Printf("fail: usecase.GetAllMessagesByChannelId, %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}

@@ -8,16 +8,16 @@ import (
 )
 
 // ユーザーidからワークスペースを取得
-func GetWorkspacesByUserID(w http.ResponseWriter, r *http.Request) {
+func GetWorkspacesByUserId(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		// ユーザーidを取得
-		userID := r.URL.Query().Get("user")
+		userId := r.URL.Query().Get("user")
 
 		// ワークスペースを取得
-		workspaces, err := usecase.GetWorkspacesByUserID(userID)
+		workspaces, err := usecase.GetWorkspacesByUserId(userId)
 		if err != nil {
-			log.Printf("fail: usecase.GetWorkspacesByUserID, %v\n", err)
+			log.Printf("fail: usecase.GetWorkspacesByUserId, %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}

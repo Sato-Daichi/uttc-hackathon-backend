@@ -8,16 +8,16 @@ import (
 )
 
 // ワークスペースidからチャンネルを取得
-func GetChannelsByWorkspaceID(w http.ResponseWriter, r *http.Request) {
+func GetChannelsByWorkspaceId(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		// ワークスペースidを取得
-		workspaceID := r.URL.Query().Get("workspace")
+		workspaceId := r.URL.Query().Get("workspace")
 
 		// チャンネルを取得
-		channels, err := usecase.GetChannelsByWorkspaceID(workspaceID)
+		channels, err := usecase.GetChannelsByWorkspaceId(workspaceId)
 		if err != nil {
-			log.Printf("fail: usecase.GetChannelsByWorkspaceID, %v\n", err)
+			log.Printf("fail: usecase.GetChannelsByWorkspaceId, %v\n", err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}

@@ -6,7 +6,7 @@ import (
 )
 
 // user_idからworkspacesを取得
-func GetWorkspacesByUserID(userID string) ([]model.Workspace, error) {
+func GetWorkspacesByUserId(userId string) ([]model.Workspace, error) {
 	stmt, err := db.Prepare("SELECT workspaces.id, workspaces.name, workspaces.created_at, workspaces.updated_at FROM workspaces LEFT JOIN users_workspaces ON workspaces.id = users_workspaces.workspace_id LEFT JOIN users ON users_workspaces.user_id = users.id WHERE users.id = ?")
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
@@ -14,7 +14,7 @@ func GetWorkspacesByUserID(userID string) ([]model.Workspace, error) {
 	}
 	defer stmt.Close()
 
-	row, err := stmt.Query(userID)
+	row, err := stmt.Query(userId)
 	if err != nil {
 		log.Printf("fail: stmt.Query, %v\n", err)
 		return nil, err

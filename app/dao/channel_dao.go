@@ -6,7 +6,7 @@ import (
 )
 
 // workspace_idから全チャンネルを取得
-func GetChannelsByWorkspaceID(workspaceID string) ([]model.Channel, error) {
+func GetChannelsByWorkspaceId(workspaceId string) ([]model.Channel, error) {
 	stmt, err := db.Prepare("SELECT channels.id, channels.name, channels.description, channels.create_user_id, channels.created_at, channels.updated_at, channels.workspace_id FROM channels LEFT JOIN workspaces ON channels.workspace_id = workspaces.id WHERE workspaces.id = ?")
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
@@ -14,7 +14,7 @@ func GetChannelsByWorkspaceID(workspaceID string) ([]model.Channel, error) {
 	}
 	defer stmt.Close()
 
-	rows, err := stmt.Query(workspaceID)
+	rows, err := stmt.Query(workspaceId)
 	if err != nil {
 		log.Printf("fail: stmt.Query, %v\n", err)
 		return nil, err

@@ -6,8 +6,8 @@ import (
 )
 
 // チャンネルidから全メッセージを取得
-func GetMessagesByChannelID(channelID string) ([]model.MessageUser, error) {
-	messages, err := dao.GetMessagesByChannelID(channelID)
+func GetMessagesByChannelId(channelId string) ([]model.MessageUser, error) {
+	messages, err := dao.GetMessagesByChannelId(channelId)
 	if err != nil {
 		return nil, err
 	}

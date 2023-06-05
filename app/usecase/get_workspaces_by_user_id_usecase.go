@@ -6,8 +6,8 @@ import (
 )
 
 // ユーザーidからワークスペースを取得
-func GetWorkspacesByUserID(userID string) ([]model.Workspace, error) {
-	workspaces, err := dao.GetWorkspacesByUserID(userID)
+func GetWorkspacesByUserId(userId string) ([]model.Workspace, error) {
+	workspaces, err := dao.GetWorkspacesByUserId(userId)
 	if err != nil {
 		return nil, err
 	}
