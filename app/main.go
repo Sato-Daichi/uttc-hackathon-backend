@@ -29,6 +29,9 @@ func main() {
 	// message_idからメッセージを削除
 	http.HandleFunc("/message/delete", controller.DeleteMessage)
 
+	// messageを投稿
+	http.HandleFunc("/message/post", controller.PostMessage)
+
 	// 8000番ポートでリクエストを待ち受ける
 	log.Println("Listening...")
 	if err := http.ListenAndServe(":8000", nil); err != nil {

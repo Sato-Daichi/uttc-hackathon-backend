@@ -51,3 +51,21 @@ func DeleteMessage(messageId string) error {
 
 	return nil
 }
+
+// messageを投稿
+func PostMessage(message model.Message) error {
+	stmt, err := db.Prepare("INSERT INTO messages (id, text, channel_id, user_id) VALUES (?, ?, ?, ?)")
+	if err != nil {
+		log.Printf("fail: db.Prepare, %v\n", err)
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(message.Id, message.Text, message.ChannelId, message.UserId)
+	if err != nil {
+		log.Printf("fail: stmt.Exec, %v\n", err)
+		return err
+	}
+
+	return nil
+}
