@@ -7,7 +7,7 @@ import (
 
 // チャンネルidから全メッセージを取得
 func GetMessagesByChannelId(channelId string) ([]model.MessageUser, error) {
-	stmt, err := db.Prepare("SELECT messages.id, messages.text, messages.channel_id, messages.created_at, messages.updated_at, users.id, users.username, users.password, users.email, users.created_at, users.updated_at FROM messages INNER JOIN users ON messages.user_id = users.id WHERE messages.channel_id = ?")
+	stmt, err := db.Prepare("SELECT messages.id, messages.text, messages.channel_id, messages.created_at, messages.updated_at, users.id, users.username, users.password, users.email, users.created_at, users.updated_at FROM messages INNER JOIN users ON messages.user_id = users.id WHERE messages.channel_id = ? ORDER BY messages.created_at ASC")
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
 		return nil, err
