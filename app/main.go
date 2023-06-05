@@ -18,13 +18,16 @@ func main() {
 	http.HandleFunc("/users/all", controller.GetAllUsers)
 
 	// チャンネルidから全メッセージを取得
-	http.HandleFunc("/messages", controller.GetMessagesByChannelID)
+	http.HandleFunc("/messages", controller.GetMessagesByChannelId)
 
 	// user_idからworkspacesを取得
-	http.HandleFunc("/workspaces", controller.GetWorkspacesByUserID)
+	http.HandleFunc("/workspaces", controller.GetWorkspacesByUserId)
 
 	// workspace_idからchannelsを取得
-	http.HandleFunc("/channels", controller.GetChannelsByWorkspaceID)
+	http.HandleFunc("/channels", controller.GetChannelsByWorkspaceId)
+
+	// message_idからメッセージを削除
+	http.HandleFunc("/message/delete", controller.DeleteMessage)
 
 	// 8000番ポートでリクエストを待ち受ける
 	log.Println("Listening...")

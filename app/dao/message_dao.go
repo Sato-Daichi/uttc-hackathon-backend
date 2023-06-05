@@ -6,7 +6,7 @@ import (
 )
 
 // チャンネルidから全メッセージを取得
-func GetMessagesByChannelID(channelID string) ([]model.MessageUser, error) {
+func GetMessagesByChannelId(channelId string) ([]model.MessageUser, error) {
 	stmt, err := db.Prepare("SELECT messages.id, messages.text, messages.channel_id, messages.created_at, messages.updated_at, users.id, users.username, users.password, users.email, users.created_at, users.updated_at FROM messages INNER JOIN users ON messages.user_id = users.id WHERE messages.channel_id = ?")
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
@@ -14,7 +14,7 @@ func GetMessagesByChannelID(channelID string) ([]model.MessageUser, error) {
 	}
 	defer stmt.Close()
 
-	rows, err := stmt.Query(channelID)
+	rows, err := stmt.Query(channelId)
 	if err != nil {
 		log.Printf("fail: stmt.Query, %v\n", err)
 		return nil, err
@@ -32,4 +32,22 @@ func GetMessagesByChannelID(channelID string) ([]model.MessageUser, error) {
 	}
 
 	return messageUsers, nil
+}
+
+// message_idからメッセージを削除
+func DeleteMessage(messageId string) error {
+	stmt, err := db.Prepare("DELETE FROM messages WHERE id = ?")
+	if err != nil {
+		log.Panicf("fail: db.Prepare, %v\n", err)
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(messageId)
+	if err != nil {
+		log.Printf("fail: stmt.Exec, %v\n", err)
+		return err
+	}
+
+	return nil
 }
