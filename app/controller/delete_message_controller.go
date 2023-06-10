@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-// messag_idからメッセージを削除する
+// message_idからメッセージを削除する
 func DeleteMessage(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodDelete:
