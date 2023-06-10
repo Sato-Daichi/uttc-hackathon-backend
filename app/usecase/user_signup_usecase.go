@@ -2,10 +2,10 @@ package usecase
 
 import (
 	"app/dao"
+	"app/model"
 	"database/sql"
 	"fmt"
 	"log"
-	"app/model"
 )
 
 // userを登録する
