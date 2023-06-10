@@ -7,7 +7,7 @@ import (
 
 // userを登録する
 func UserSignUp(user model.User) (model.User, error) {
-	stmt, err := db.Prepare("INSERT INTO user (id, username, password, email) VALUES (?, ?, ?, ?)")
+	stmt, err := db.Prepare("INSERT INTO users (id, username, password, email) VALUES (?, ?, ?, ?)")
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
 		return model.User{}, err
@@ -37,7 +37,7 @@ func UserSignUp(user model.User) (model.User, error) {
 
 // emailを指定してuserを取得する
 func GetUserByEmail(email string) (model.User, error) {
-	stmt, err := db.Prepare("SELECT * FROM user WHERE email = ?")
+	stmt, err := db.Prepare("SELECT * FROM users WHERE email = ?")
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
 		return model.User{}, err
