@@ -69,3 +69,23 @@ func PostMessage(message model.Message) error {
 
 	return nil
 }
+
+// messageIdとtextをもとにmessageをupdate
+func UpdateMessage(messageResForPatch model.MessageResForPatch) error {
+	stmt, err := db.Prepare("UPDATE messages SET text = ? WHERE id = ?")
+	if err != nil {
+		log.Printf("fail: db.Prepare, %v\n", err)
+		return err
+	}
+	defer stmt.Close()
+
+	log.Printf("messageResForPatch.Id: %v\n  messageResForPatch.Text: %v\n", messageResForPatch.Id, messageResForPatch.Text)
+
+	_, err = stmt.Exec(messageResForPatch.Text, messageResForPatch.Id)
+	if err != nil {
+		log.Printf("fail: stmt.Exec, %v\n", err)
+		return err
+	}
+
+	return nil
+}

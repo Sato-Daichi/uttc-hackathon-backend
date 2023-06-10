@@ -32,6 +32,9 @@ func main() {
 	// messageを投稿
 	http.HandleFunc("/message/post", controller.PostMessage)
 
+	// messageをupdate
+	http.HandleFunc("/message/update", controller.UpdateMessage)
+
 	// 8000番ポートでリクエストを待ち受ける
 	log.Println("Listening...")
 	if err := http.ListenAndServe(":8000", nil); err != nil {
