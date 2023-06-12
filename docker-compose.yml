@@ -14,7 +14,7 @@ services:
       - db/.env_mysql
     volumes:
       - type: volume
-        source: mysql-data
+        source: hackathon-db
         target: /var/lib/mysql
       - type: bind
         source: ./db/init
@@ -30,8 +30,8 @@ services:
     ports:
       - 8000:8000
     env_file:
-      - .env
+      - app/.env
 
 volumes:
-  mysql-data:
-    name: mysql-volume
+  hackathon-db:
+    name: hackathon-db
