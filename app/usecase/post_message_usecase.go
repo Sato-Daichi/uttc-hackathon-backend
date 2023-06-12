@@ -6,7 +6,7 @@ import (
 )
 
 // messageを投稿
-func PostMessage(message model.Message) error {
+func PostMessage(message model.PostMessage) error {
 	// messageを投稿
 	err := dao.PostMessage(message)
 	if err != nil {

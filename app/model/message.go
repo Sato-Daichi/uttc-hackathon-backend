@@ -28,3 +28,10 @@ type Message struct {
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
 }
+
+type PostMessage struct {
+	Id 	  string `json:"id"`
+	Text      string `json:"text"`
+	ChannelId string `json:"channelId"`
+	Username  string `json:"username"`
+}

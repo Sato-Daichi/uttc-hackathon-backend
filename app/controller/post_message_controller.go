@@ -16,7 +16,7 @@ import (
 type MessageResForPost struct {
 	Text      string `json:"text"`
 	ChannelId string `json:"channelId"`
-	UserId    string `json:"userId"`
+	Username  string `json:"username"`
 }
 
 // messageを投稿
@@ -34,7 +34,7 @@ func PostMessage(w http.ResponseWriter, r *http.Request) {
 
 		// messageを作成
 		// MessageResForPostからMessageに値を受け渡す
-		var message model.Message
+		var message model.PostMessage
 
 		// uuidでIdを生成
 		t := time.Now()
@@ -42,7 +42,7 @@ func PostMessage(w http.ResponseWriter, r *http.Request) {
 		message.Id = ulid.MustNew(ulid.Timestamp(t), entropy).String()
 		message.Text = messageResForPost.Text
 		message.ChannelId = messageResForPost.ChannelId
-		message.UserId = messageResForPost.UserId
+		message.Username = messageResForPost.Username
 
 		// messageを投稿
 		err = usecase.PostMessage(message)
