@@ -5,7 +5,11 @@ import (
 	"app/usecase"
 	"encoding/json"
 	"log"
+	"math/rand"
 	"net/http"
+	"time"
+
+	"github.com/oklog/ulid"
 )
 
 // userを登録する
@@ -13,13 +17,18 @@ func UserSignUp(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
 		// jsonを解析してusername、password、emailを取得する
-		var user model.User
+		var user model.UserResForPost
 		err := json.NewDecoder(r.Body).Decode(&user)
 		if err != nil {
 			log.Printf("fail: json.NewDecoder.Decode, %v\n", err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
+
+		// uuidでidを生成する
+		t := time.Now()
+		entropy := ulid.Monotonic(rand.New(rand.NewSource(t.UnixNano())), 0)
+		user.Id = ulid.MustNew(ulid.Timestamp(t), entropy).String()
 
 		// username、password、emailが空文字の場合は400エラーを返す
 		if user.Username == "" || user.Password == "" || user.Email == "" {
