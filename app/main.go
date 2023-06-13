@@ -35,6 +35,9 @@ func main() {
 	// messageをupdate
 	http.HandleFunc("/message/update", controller.UpdateMessage)
 
+	// login時にusernameを取得
+	http.HandleFunc("/login", controller.UserLogin)
+
 	// 8000番ポートでリクエストを待ち受ける
 	log.Println("Listening...")
 	if err := http.ListenAndServe(":8000", nil); err != nil {

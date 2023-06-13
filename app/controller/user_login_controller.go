@@ -1,0 +1,61 @@
+package controller
+
+import (
+	"app/model"
+	"app/usecase"
+	"encoding/json"
+	"fmt"
+	"net/http"
+)
+
+// emailとpasswordを受け取り、usernameを返す
+func UserLogin(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		email := r.URL.Query().Get("email")
+		password := r.URL.Query().Get("password")
+
+		if email == "" || password == "" {
+			fmt.Println("fail: email or password is empty")
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
+		// userを登録する
+		username, err := usecase.UserLogin(email, password)
+		if err != nil {
+			fmt.Println("fail: usecase.UserLogin(user),", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		// レスポンスボディを作成
+		res := model.UserResForPost{
+			Username: username,
+		}
+
+		// レスポンスボディを作成
+		resBody, err := json.Marshal(res)
+		if err != nil {
+			fmt.Println("fail: json.Marshal(res),", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		// レスポンスヘッダを作成
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.WriteHeader(http.StatusOK)
+		// レスポンスボディを書き込む
+		w.Write(resBody)
+	case http.MethodOptions:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.WriteHeader(http.StatusOK)
+	default:
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+}
