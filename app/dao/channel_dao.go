@@ -34,3 +34,21 @@ func GetChannelsByWorkspaceId(workspaceId string) ([]model.Channel, error) {
 
 	return channels, nil
 }
+
+// チャンネルを新規作成
+func CreateChannel(channel model.Channel) error {
+	stmt, err := db.Prepare("INSERT INTO channels (id, name, description, create_user_id, workspace_id) VALUES (?, ?, ?, ?, ?)")
+	if err != nil {
+		log.Printf("fail: db.Prepare, %v\n", err)
+		return err
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(channel.Id, channel.Name, channel.Description, channel.CreateUserId, channel.WorkspaceId)
+	if err != nil {
+		log.Printf("fail: stmt.Exec, %v\n", err)
+		return err
+	}
+
+	return nil
+}
