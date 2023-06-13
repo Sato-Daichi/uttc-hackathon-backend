@@ -54,29 +54,14 @@ func DeleteMessage(messageId string) error {
 
 // messageを投稿
 func PostMessage(message model.PostMessage) error {
-	// usernameからuser_idを取得
-	stmt, err := db.Prepare("SELECT id FROM users WHERE username = ?")
+	stmt, err := db.Prepare("INSERT INTO messages (id, text, channel_id, user_id) VALUES (?, ?, ?, ?)")
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
 		return err
 	}
 	defer stmt.Close()
 
-	var userId string
-	err = stmt.QueryRow(message.Username).Scan(&userId)
-	if err != nil {
-		log.Printf("fail: stmt.QueryRow().Scan, %v\n", err)
-		return err
-	}
-
-	stmt, err = db.Prepare("INSERT INTO messages (id, text, channel_id, user_id) VALUES (?, ?, ?, ?)")
-	if err != nil {
-		log.Printf("fail: db.Prepare, %v\n", err)
-		return err
-	}
-	defer stmt.Close()
-
-	_, err = stmt.Exec(message.Id, message.Text, message.ChannelId, userId)
+	_, err = stmt.Exec(message.Id, message.Text, message.ChannelId, message.UserId)
 	if err != nil {
 		log.Printf("fail: stmt.Exec, %v\n", err)
 		return err

@@ -30,8 +30,8 @@ type Message struct {
 }
 
 type PostMessage struct {
-	Id 	  string `json:"id"`
+	Id        string `json:"id"`
 	Text      string `json:"text"`
 	ChannelId string `json:"channelId"`
-	Username  string `json:"username"`
+	UserId    string `json:"userId"`
 }
