@@ -3,19 +3,12 @@ FROM golang:1.18 as build
 # 作業ディレクトリを設定
 WORKDIR /app
 
-# /appにgo.modをコピーしgo modをダウンロード
-COPY . .
-
-# 作業ディレクトリを設定
-WORKDIR /app/app
+COPY go.mod ./
 
 RUN go mod download
 
-# go modのダウンロード、Goアプリのビルド
-RUN go build -v main.go
+COPY . ./
 
-# ポートを公開
-EXPOSE 8000
+RUN go build -o /hackathon-server
 
-# コンテナ起動時に実行するコマンドを指定
-CMD ["go", "run", "main.go"]
+CMD ["/hackathon-server"]
