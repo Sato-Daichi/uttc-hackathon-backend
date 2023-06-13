@@ -13,7 +13,7 @@ var db *sql.DB
 
 func init() {
 	mysqlUser := os.Getenv("MYSQL_USER")
-	mysqlPwd := os.Getenv("MYSQL_PWD")
+	mysqlPwd := os.Getenv("MYSQL_PASSWORD")
 	mysqlHost := os.Getenv("MYSQL_HOST")
 	mysqlDatabase := os.Getenv("MYSQL_DATABASE")
 
