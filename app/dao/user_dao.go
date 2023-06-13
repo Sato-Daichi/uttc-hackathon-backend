@@ -63,7 +63,6 @@ func UserLogin(email string, password string) (string, error) {
 	defer stmt.Close()
 
 	var username string
-	log.Printf("email: %v, password: %v\n", email, password)
 	err = stmt.QueryRow(email, password).Scan(&username)
 	if err != nil {
 		log.Printf("fail: stmt.QueryRow(user.Email, user.Password).Scan(&username), %v\n", err)
