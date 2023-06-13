@@ -79,8 +79,6 @@ func UpdateMessage(messageResForPatch model.MessageResForPatch) error {
 	}
 	defer stmt.Close()
 
-	log.Printf("messageResForPatch.Id: %v\n  messageResForPatch.Text: %v\n", messageResForPatch.Id, messageResForPatch.Text)
-
 	_, err = stmt.Exec(messageResForPatch.Text, messageResForPatch.Id)
 	if err != nil {
 		log.Printf("fail: stmt.Exec, %v\n", err)
