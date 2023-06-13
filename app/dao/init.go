@@ -7,11 +7,22 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/joho/godotenv"
 )
 
 var db *sql.DB
 
 func init() {
+	// .envファイルがあればそれを読み込む
+	_, err := os.Stat(".env")
+	if err == nil {
+		err := godotenv.Load(".env")
+		if err != nil {
+			log.Fatalf("fail: godotenv.Load, %v\n", err)
+		}
+	}
+
 	mysqlUser := os.Getenv("MYSQL_USER")
 	mysqlPwd := os.Getenv("MYSQL_PASSWORD")
 	mysqlHost := os.Getenv("MYSQL_HOST")
