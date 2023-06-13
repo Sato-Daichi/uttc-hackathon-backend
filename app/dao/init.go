@@ -7,27 +7,20 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-
-	"github.com/joho/godotenv"
 )
 
 var db *sql.DB
 
 func init() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Fatalf("fail: godotenv.Load, %v\n", err)
-	}
-
 	mysqlUser := os.Getenv("MYSQL_USER")
-    mysqlPwd := os.Getenv("MYSQL_PWD")
-    mysqlHost := os.Getenv("MYSQL_HOST")
-    mysqlDatabase := os.Getenv("MYSQL_DATABASE")
+	mysqlPwd := os.Getenv("MYSQL_PWD")
+	mysqlHost := os.Getenv("MYSQL_HOST")
+	mysqlDatabase := os.Getenv("MYSQL_DATABASE")
 
 	// DB接続
-    // 時間をパースする
+	// 時間をパースする
 	connStr := fmt.Sprintf("%s:%s@%s/%s?parseTime=true", mysqlUser, mysqlPwd, mysqlHost, mysqlDatabase)
-    _db, err := sql.Open("mysql", connStr)
+	_db, err := sql.Open("mysql", connStr)
 	if err != nil {
 		log.Fatalf("fail: sql.Open, %v\n", err)
 	}
