@@ -12,6 +12,7 @@ import (
 func init() {}
 
 func main() {
+	// ユーザー登録
 	http.HandleFunc("/signup", controller.UserSignUp)
 
 	// 全ユーザーを取得
@@ -38,7 +39,7 @@ func main() {
 	// login時にusernameを取得
 	http.HandleFunc("/login", controller.UserLogin)
 
-	// 8000番ポートでリクエストを待ち受ける
+	// 8080番ポートでリクエストを待ち受ける
 	log.Println("Listening...")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
