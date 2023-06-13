@@ -22,15 +22,16 @@ func UserLogin(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// userを登録する
-		username, err := usecase.UserLogin(email, password)
+		userId, username, err := usecase.UserLogin(email, password)
 		if err != nil {
-			fmt.Println("fail: usecase.UserLogin(user),", err)
+			fmt.Println("fail: usecase.UserLogin,", err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
 		// レスポンスボディを作成
 		res := model.UserResForPost{
+			Id:       userId,
 			Username: username,
 		}
 

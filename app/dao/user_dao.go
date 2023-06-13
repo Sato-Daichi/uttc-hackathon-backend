@@ -53,21 +53,22 @@ func GetAllUsers() ([]model.User, error) {
 	return users, nil
 }
 
-// emailとpasswordを受け取り、usernameを返す
-func UserLogin(email string, password string) (string, error) {
-	stmt, err := db.Prepare("SELECT username FROM users WHERE email = ? AND password = ?")
+// emailとpasswordを受け取り、idとusernameを返す
+func UserLogin(email string, password string) (string, string, error) {
+	stmt, err := db.Prepare("SELECT id, username FROM users WHERE email = ? AND password = ?")
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
-		return "", err
+		return "", "", err
 	}
 	defer stmt.Close()
 
 	var username string
-	err = stmt.QueryRow(email, password).Scan(&username)
+	var userId string
+	err = stmt.QueryRow(email, password).Scan(&userId, &username)
 	if err != nil {
-		log.Printf("fail: stmt.QueryRow(user.Email, user.Password).Scan(&username), %v\n", err)
-		return "", err
+		log.Printf("fail: stmt.QueryRow.Scan, %v\n", err)
+		return "", "", err
 	}
 
-	return username, nil
+	return userId, username, nil
 }
