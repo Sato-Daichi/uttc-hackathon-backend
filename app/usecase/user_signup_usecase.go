@@ -7,7 +7,6 @@ import (
 )
 
 // userを登録する
-// ただしemailが既に登録されているかチェックする
 func UserSignUp(user model.UserResForPost) error {
 	// userを登録する
 	err := dao.UserSignUp(user)
