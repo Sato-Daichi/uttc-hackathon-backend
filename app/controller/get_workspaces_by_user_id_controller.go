@@ -13,6 +13,11 @@ func GetWorkspacesByUserId(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		// ユーザーidを取得
 		userId := r.URL.Query().Get("user")
+		if userId == "" {
+			log.Printf("fail: r.URL.Query().Get, %v\n", userId)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
 
 		// ワークスペースを取得
 		workspaces, err := usecase.GetWorkspacesByUserId(userId)

@@ -13,6 +13,11 @@ func GetMessagesByChannelId(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		// チャンネルidを取得
 		channelId := r.URL.Query().Get("channel")
+		if channelId == "" {
+			log.Printf("fail: r.URL.Query().Get, %v\n", channelId)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
 
 		// メッセージを取得
 		messages, err := usecase.GetMessagesByChannelId(channelId)

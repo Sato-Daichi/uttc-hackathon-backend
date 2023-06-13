@@ -22,6 +22,22 @@ func CreateChannel(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
+		} else if channel.Name == "" {
+			fmt.Println("name is empty")
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		} else if channel.Description == "" {
+			fmt.Println("description is empty")
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		} else if channel.CreateUserId == "" {
+			fmt.Println("createUserId is empty")
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		} else if channel.WorkspaceId == "" {
+			fmt.Println("workspaceId is empty")
+			w.WriteHeader(http.StatusBadRequest)
+			return
 		}
 
 		// idはuuidで生成

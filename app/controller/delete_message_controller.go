@@ -12,6 +12,12 @@ func DeleteMessage(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodDelete:
 		message_id := r.URL.Query().Get("message")
+		if message_id == "" {
+			log.Printf("fail: r.URL.Query().Get, %v\n", message_id)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+
 		err := usecase.DeleteMessage(message_id)
 		if err != nil {
 			log.Printf("fail: usecase.DeleteMessage, %v\n", err)

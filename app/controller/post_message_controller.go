@@ -30,6 +30,18 @@ func PostMessage(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Printf("fail: json.NewDecoder().Decode, %v\n", err)
 			return
+		} else if messageResForPost.Text == "" {
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Fprint(w, "text is empty")
+			return
+		} else if messageResForPost.ChannelId == "" {
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Fprint(w, "channelId is empty")
+			return
+		} else if messageResForPost.UserId == "" {
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Fprint(w, "userId is empty")
+			return
 		}
 
 		// messageを作成

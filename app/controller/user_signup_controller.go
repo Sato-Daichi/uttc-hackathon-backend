@@ -23,6 +23,18 @@ func UserSignUp(w http.ResponseWriter, r *http.Request) {
 			log.Printf("fail: json.NewDecoder.Decode, %v\n", err)
 			w.WriteHeader(http.StatusBadRequest)
 			return
+		} else if user.Username == "" {
+			log.Printf("fail: username is empty\n")
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		} else if user.Password == "" {
+			log.Printf("fail: password is empty\n")
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		} else if user.Email == "" {
+			log.Printf("fail: email is empty\n")
+			w.WriteHeader(http.StatusBadRequest)
+			return
 		}
 
 		// uuidでidを生成する

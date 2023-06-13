@@ -20,6 +20,14 @@ func UpdateMessage(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			log.Printf("fail: json.NewDecoder().Decode, %v\n", err)
 			return
+		} else if messageResForPatch.Id == "" {
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Fprint(w, "id is empty")
+			return
+		} else if messageResForPatch.Text == "" {
+			w.WriteHeader(http.StatusBadRequest)
+			fmt.Fprint(w, "text is empty")
+			return
 		}
 
 		// messageをupdate

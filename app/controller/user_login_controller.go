@@ -15,8 +15,12 @@ func UserLogin(w http.ResponseWriter, r *http.Request) {
 		email := r.URL.Query().Get("email")
 		password := r.URL.Query().Get("password")
 
-		if email == "" || password == "" {
-			fmt.Println("fail: email or password is empty")
+		if email == "" {
+			fmt.Println("fail: r.URL.Query().Get, email")
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		} else if password == "" {
+			fmt.Println("fail: r.URL.Query().Get, password")
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}

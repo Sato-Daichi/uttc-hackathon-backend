@@ -13,6 +13,11 @@ func GetChannelsByWorkspaceId(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		// ワークスペースidを取得
 		workspaceId := r.URL.Query().Get("workspace")
+		if workspaceId == "" {
+			log.Printf("fail: r.URL.Query().Get, %v\n", workspaceId)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
 
 		// チャンネルを取得
 		channels, err := usecase.GetChannelsByWorkspaceId(workspaceId)
