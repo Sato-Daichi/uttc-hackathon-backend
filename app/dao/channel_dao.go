@@ -36,19 +36,33 @@ func GetChannelsByWorkspaceId(workspaceId string) ([]model.Channel, error) {
 }
 
 // チャンネルを新規作成
-func CreateChannel(channel model.Channel) error {
+func CreateChannel(channel model.Channel) (model.Channel, error) {
 	stmt, err := db.Prepare("INSERT INTO channels (id, name, description, create_user_id, workspace_id) VALUES (?, ?, ?, ?, ?)")
 	if err != nil {
 		log.Printf("fail: db.Prepare, %v\n", err)
-		return err
+		return channel, err
 	}
 	defer stmt.Close()
 
 	_, err = stmt.Exec(channel.Id, channel.Name, channel.Description, channel.CreateUserId, channel.WorkspaceId)
 	if err != nil {
 		log.Printf("fail: stmt.Exec, %v\n", err)
-		return err
+		return channel, err
 	}
 
-	return nil
+	// idをもとにチャンネルを取得
+	stmt, err = db.Prepare("SELECT created_at, updated_at FROM channels WHERE id = ?")
+	if err != nil {
+		log.Printf("fail: db.Prepare, %v\n", err)
+		return channel, err
+	}
+	defer stmt.Close()
+
+	err = stmt.QueryRow(channel.Id).Scan(&channel.CreatedAt, &channel.UpdatedAt)
+	if err != nil {
+		log.Printf("fail: stmt.QueryRow.Scan, %v\n", err)
+		return channel, err
+	}
+
+	return channel, nil
 }

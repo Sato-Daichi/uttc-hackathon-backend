@@ -5,6 +5,7 @@ import (
 	"app/usecase"
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"time"
@@ -26,10 +27,6 @@ func CreateChannel(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("name is empty")
 			w.WriteHeader(http.StatusBadRequest)
 			return
-		} else if channel.Description == "" {
-			fmt.Println("description is empty")
-			w.WriteHeader(http.StatusBadRequest)
-			return
 		} else if channel.CreateUserId == "" {
 			fmt.Println("createUserId is empty")
 			w.WriteHeader(http.StatusBadRequest)
@@ -46,13 +43,32 @@ func CreateChannel(w http.ResponseWriter, r *http.Request) {
 		channel.Id = ulid.MustNew(ulid.Timestamp(t), entropy).String()
 
 		// チャンネルを作成
-		if err := usecase.CreateChannel(channel); err != nil {
+		channel, err := usecase.CreateChannel(channel)
+		if err != nil {
 			fmt.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
+		// jsonに変換
+		jsonBytes, err := json.Marshal(channel)
+		if err != nil {
+			log.Printf("fail: json.Marshal, %v\n", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
 		// レスポンスを返す
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(jsonBytes)
+	case http.MethodOptions:
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
 		w.WriteHeader(http.StatusOK)
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)

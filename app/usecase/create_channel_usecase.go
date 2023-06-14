@@ -6,11 +6,11 @@ import (
 )
 
 // チャンネルを新規作成
-func CreateChannel(channel model.Channel) error {
-	// チャンネルを作成
-	if err := dao.CreateChannel(channel); err != nil {
-		return err
+func CreateChannel(channel model.Channel) (model.Channel, error) {
+	channel, err := dao.CreateChannel(channel)
+	if err != nil {
+		return channel, err
 	}
 
-	return nil
+	return channel, nil
 }
