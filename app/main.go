@@ -42,6 +42,9 @@ func main() {
 	// チャンネルを作成
 	http.HandleFunc("/channel/create", controller.CreateChannel)
 
+	// ユーザーがチャンネルに参加
+	http.HandleFunc("/channels/join", controller.JoinChannels)
+
 	// 8080番ポートでリクエストを待ち受ける
 	log.Println("Listening...")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
