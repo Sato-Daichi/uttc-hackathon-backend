@@ -27,6 +27,9 @@ func main() {
 	// workspace_idからchannelsを取得
 	http.HandleFunc("/channels", controller.GetChannelsByWorkspaceId)
 
+	// workspace_idとuser_idからchannelsを取得
+	http.HandleFunc("/channels/user", controller.GetChannelsByWorkspaceIdAndUserId)
+
 	// message_idからメッセージを削除
 	http.HandleFunc("/message/delete", controller.DeleteMessage)
 
